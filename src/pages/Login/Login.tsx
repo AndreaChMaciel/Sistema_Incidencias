@@ -1,6 +1,7 @@
-import axios from 'axios';
+
 import React, { useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonLabel, IonButton, IonAlert } from '@ionic/react';
+import axios from 'axios';
 
 const Login: React.FC = () => {
   const [ct_correo, setCorreo] = useState('');
@@ -20,6 +21,7 @@ const Login: React.FC = () => {
         ct_contrasena
       });
 
+
       const { success, message } = response.data;
 
       if (!success) {
@@ -27,6 +29,16 @@ const Login: React.FC = () => {
       } else {
         setError('Inicio de sesión exitoso!!');
         // Manejar el inicio de sesión exitoso, por ejemplo, redirigir a otra página
+
+      const { mensaje } = response.data;
+      
+      // Verificar si el mensaje indica que las credenciales son incorrectas
+      if (mensaje === 'La contraseña es incorrecta' || mensaje === 'No se encontró ningún usuario con ese correo electrónico') {
+        setError('Credenciales inválidas');
+      } else {
+        // Las credenciales son válidas, haz lo que necesites hacer aquí
+        setError('Inicio de sesión exitoso!!');
+
       }
     } catch (err) {
       setError('Error al iniciar sesión');

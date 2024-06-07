@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "frontend_sgi",
+=======
+  "name": "front_sgi",
+>>>>>>> 67589e3c990e18e725ae1353d1fb3d61a377968c
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -12,6 +16,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "@applitools/eyes-testcafe": "^6.2.4",
+>>>>>>> 67589e3c990e18e725ae1353d1fb3d61a377968c
     "@capacitor/app": "6.0.0",
     "@capacitor/core": "6.0.0",
     "@capacitor/haptics": "6.0.0",
