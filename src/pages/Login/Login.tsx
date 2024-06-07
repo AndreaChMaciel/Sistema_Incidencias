@@ -20,19 +20,25 @@ const Login: React.FC = () => {
         ct_correo,
         ct_contrasena
       });
-  
-      const { success, message } = response.data;
-  
+    
+      console.log(response.data);
+      const { success, mensaje } = response.data;
+      console.log(success);
       if (!success) {
-        // Las credenciales son incorrectas
-        setError(message);
+        // Verificar el mensaje de error específico devuelto por el servidor
+        if (mensaje === 'La contraseña es incorrecta' || mensaje === 'No se encontró ningún usuario con ese correo electrónico') {
+          setError('Credenciales inválidas');
+          console.log(setError);
+        } else {
+          setError(mensaje); // Mostrar cualquier otro mensaje de error
+        }
       } else {
         // Las credenciales son correctas
         setError('Inicio de sesión exitoso!!');
         // Manejar el inicio de sesión exitoso, por ejemplo, redirigir a otra página
       }
     } catch (err) {
-      // Manejar el error de la solicitud
+      console.log(err)
       setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
     }
   };
