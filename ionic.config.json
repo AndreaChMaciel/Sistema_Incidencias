@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "frontend_sgi",
-=======
-  "name": "front_sgi",
->>>>>>> 67589e3c990e18e725ae1353d1fb3d61a377968c
   "integrations": {
     "capacitor": {}
   },
