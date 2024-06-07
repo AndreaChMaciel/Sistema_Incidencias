@@ -1,0 +1,7 @@
+{
+  "name": "frontend_sgi",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
