@@ -14,34 +14,26 @@ const Login: React.FC = () => {
       setError('Por favor, proporcione un correo y una contraseña');
       return;
     }
-
+  
     try {
       const response = await axios.post('http://localhost:8000/api/login', {
         ct_correo,
         ct_contrasena
       });
-
-
+  
       const { success, message } = response.data;
-
+  
       if (!success) {
+        // Las credenciales son incorrectas
         setError(message);
       } else {
+        // Las credenciales son correctas
         setError('Inicio de sesión exitoso!!');
         // Manejar el inicio de sesión exitoso, por ejemplo, redirigir a otra página
-
-      const { mensaje } = response.data;
-      
-      // Verificar si el mensaje indica que las credenciales son incorrectas
-      if (mensaje === 'La contraseña es incorrecta' || mensaje === 'No se encontró ningún usuario con ese correo electrónico') {
-        setError('Credenciales inválidas');
-      } else {
-        // Las credenciales son válidas, haz lo que necesites hacer aquí
-        setError('Inicio de sesión exitoso!!');
-
       }
     } catch (err) {
-      setError('Error al iniciar sesión');
+      // Manejar el error de la solicitud
+      setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
     }
   };
 
