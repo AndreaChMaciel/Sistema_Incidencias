@@ -46,7 +46,7 @@ class User extends Authenticatable
      */
     public function getAuthPassword()
     {
-        // Reemplaza 'ct_contrasena' con el nombre real del campo de contraseña en tu base de datos
+       
         return $this->ct_contrasena;
     }
 
