@@ -3,6 +3,7 @@
 use App\Http\Controllers\ControllerAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ControllerIncidencias;
 
 
 /*
@@ -35,3 +36,11 @@ Route::delete('/usuarios/{cn_id_usuario}','App\Http\Controllers\ControllerUsuari
 
 //LOGUEO
 Route::post('/login', [ControllerAuth::class, 'verificarContrasena']);
+
+//Incidencias
+
+//registrar una incidencia
+//Route::post('/incidencias/crear', [ControllerIncidencias::class, 'store']);
+Route::post('/incidencias/crear','App\Http\Controllers\ControllerIncidencias@store');
+
+Route::get('/incidencias','App\Http\Controllers\ControllerIncidencias@index');
