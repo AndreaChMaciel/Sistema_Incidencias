@@ -50,8 +50,9 @@ class ControllerIncidencias extends Controller
         $incidencia->ct_id_incidencia = $year . "-" . $numeroConsecutivo;
         $incidencia->save();
 
-        // Retornar una respuesta JSON con la incidencia creada
-        return response()->json($incidencia, 201);
+        
+        return response()->json(['success' => true, 'message' => 'Incidencia registrada con éxito!!']);
+        
     }
 
  
