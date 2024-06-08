@@ -21,14 +21,14 @@ const Login: React.FC = () => {
         ct_contrasena
       });
     
-      console.log(response.data);
+     
       const { success, mensaje } = response.data;
-      console.log(success);
+      
       if (!success) {
         // Verificar el mensaje de error específico devuelto por el servidor
         if (mensaje === 'La contraseña es incorrecta' || mensaje === 'No se encontró ningún usuario con ese correo electrónico') {
           setError('Credenciales inválidas');
-          console.log(setError);
+          
         } else {
           setError(mensaje); // Mostrar cualquier otro mensaje de error
         }
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
         // Manejar el inicio de sesión exitoso, por ejemplo, redirigir a otra página
       }
     } catch (err) {
-      console.log(err)
+      
       setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
     }
   };
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Login</IonTitle>
+          <IonTitle>Iniciar Sesión en SGI</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
           message={error}
           buttons={['OK']}
         />}
-        <IonButton expand="block" onClick={validaLogin}>Login</IonButton>
+        <IonButton expand="block" onClick={validaLogin}>LoGin</IonButton>
       </IonContent>
     </IonPage>
   );
