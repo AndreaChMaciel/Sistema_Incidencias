@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ControllerAuth;
+use App\Http\Controllers\ControllerDiagnosticos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControllerIncidencias;
@@ -44,3 +45,5 @@ Route::post('/login', [ControllerAuth::class, 'verificarContrasena']);
 Route::post('/incidencias/crear','App\Http\Controllers\ControllerIncidencias@store');
 
 Route::get('/incidencias','App\Http\Controllers\ControllerIncidencias@index');
+
+Route::post('/incidencias/{id}/diagnosticar', [ControllerDiagnosticos::class, 'registrarDiagnostico']);

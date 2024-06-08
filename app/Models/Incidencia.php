@@ -16,5 +16,8 @@ class Incidencia extends Model
     protected $primaryKey = 'id';
 
    
-    
+    public function diagnosticos()
+    {
+        return $this->hasMany(Diagnostico::class, 'id');
+    }
 }
