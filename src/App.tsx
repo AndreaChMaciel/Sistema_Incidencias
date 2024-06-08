@@ -3,6 +3,8 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Login from './pages/Login/Login';
 import RegistrarIncidencia from './pages/Incidencias/RegistraIncidencia';
+import ListaIncidencias from './pages/Incidencias/MuestraIncidencias';
+import DiagnosticaIncidencia from './pages/Incidencias/RegistraDiagnosticoInci';
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -43,7 +45,8 @@ const App: React.FC = () => (
       <IonRouterOutlet>
       <Route path="/login" component={Login} exact />
       <Route path="/registrar-incidencia" component={RegistrarIncidencia} />
-
+      <Route path="/incidencias" component={ListaIncidencias} exact />
+      <Route path="/incidencias/:id/diagnosticar" component={DiagnosticaIncidencia} exact />
         <Route exact path="/" render={() => <Redirect to="/login" />} />
       </IonRouterOutlet>
     </IonReactRouter>
