@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Login from './pages/Login/Login';
 import RegistrarIncidencia from './pages/Incidencias/RegistraIncidencia';
@@ -37,12 +37,13 @@ import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
+      <IonRouterOutlet >
       <Route path="/login" component={Login} exact />
       <Route path="/registrar-incidencia" component={RegistrarIncidencia} />
       <Route path="/incidencias" component={ListaIncidencias} exact />

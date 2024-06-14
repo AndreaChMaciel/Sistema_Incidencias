@@ -20,7 +20,7 @@ const MuestraIncidencias: React.FC = () => {
     fetchIncidencias();
   }, []);
 
-  const handleSelectIncidencia = (id: string) => {
+  const manejaSeleccionIncidencia = (id: string) => {
     history.push(`/incidencias/${id}/diagnosticar`);
   };
 
@@ -52,7 +52,7 @@ const MuestraIncidencias: React.FC = () => {
                       <td style={{ padding: '8px', border: '1px solid #ddd' }}>{incidencia.ct_lugar}</td>
                       <td style={{ padding: '8px', border: '1px solid #ddd' }}>{incidencia.ct_descripcion}</td>
                       <td style={{ padding: '8px', border: '1px solid #ddd' }}>
-                        <IonButton onClick={() => handleSelectIncidencia(incidencia.id)}>Diagnosticar</IonButton>
+                        <IonButton onClick={() => manejaSeleccionIncidencia(incidencia.id)}>Diagnosticar</IonButton>
                       </td>
                     </tr>
                   ))}
