@@ -22,14 +22,14 @@ class ControllerAuth extends Controller
             // Verificar si la ct_contrasena proporcionada coincide con la almacenada en la base de datos
             if ($ct_contrasena === $usuario->ct_contrasena) {
                 // La ct_contrasena coincide, haz lo que necesites hacer aquí
-                return response()->json(['mensaje' => 'Inicio de sesión exitoso!!']);
+                return response()->json(['success' => true, 'mensaje' => 'Inicio de sesión exitoso!!']);
             } else {
                 // La ct_contrasena no coincide
-                return response()->json(['mensaje' => 'La contrasena es incorrecta']);
+                return response()->json(['success' => false,'mensaje' => 'La contraseña es incorrecta']);
             }
         } else {
             // No se encontró ningún usuario con el ct_correo electrónico proporcionado
-            return response()->json(['mensaje' => 'No se encontró ningún usuario con ese correo electrónico']);
+            return response()->json(['success' => false,'mensaje' => 'No se encontró ningún usuario con ese correo electrónico']);
         }
     }
 }
