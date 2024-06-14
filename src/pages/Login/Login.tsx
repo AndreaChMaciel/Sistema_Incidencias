@@ -7,7 +7,7 @@ const Login: React.FC = () => {
   const [ct_correo, setCorreo] = useState('');
   const [ct_contrasena, setContrasena] = useState('');
   const [error, setError] = useState('');
-  const [showSuccess, setShowSuccess] = useState(false);
+
   const history = useHistory();
 
   const validaLogin = async () => {
@@ -25,7 +25,13 @@ const Login: React.FC = () => {
       const { success, mensaje } = response.data;
 
       if (!success) {
-        setError(mensaje === 'La contraseña es incorrecta' || mensaje === 'No se encontró ningún usuario con ese correo electrónico' ? 'Credenciales inválidas' : mensaje);
+        if (mensaje === 'La contraseña es incorrecta') {
+          setError('La contraseña es incorrecta');
+        } else if (mensaje === 'No se encontró ningún usuario con ese correo electrónico') {
+          setError('No se encontró ningún usuario con ese correo electrónico');
+        } else {
+          setError('Credenciales inválidas');
+        }
       } else {
         history.push('/incidencias');
       }
