@@ -1,8 +1,10 @@
 
 import React, { useState } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonLabel, IonButton, IonAlert, IonTextarea } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonLabel, IonButton, IonAlert, IonTextarea, IonImg } from '@ionic/react';
 import axios from 'axios';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { useHistory } from 'react-router-dom';
+
 
 const RegistraIncidencia: React.FC = () => {
   const [ct_nombre, setNombre] = useState('');
@@ -11,6 +13,27 @@ const RegistraIncidencia: React.FC = () => {
   const [imagen, setImagen] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+ 
+  
+
+  const tomarFoto = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl, // Usar 'dataUrl' como tipo de resultado
+        source: CameraSource.Camera
+      });
+  
+      if (image && image.dataUrl) {
+        setImagen(image.dataUrl);
+      }
+    } catch (error) {
+      console.error('Error al tomar la foto', error);
+      setError('Error al tomar la foto. Por favor, inténtelo de nuevo.');
+    }
+  };
 
   const history = useHistory(); // Obtén el objeto history
 
@@ -78,13 +101,10 @@ const RegistraIncidencia: React.FC = () => {
               />
             </IonItem>
             <IonItem>
-              <IonLabel position="stacked">Imagen</IonLabel>
-              <IonInput
-                type="text"
-                value={imagen}
-                onIonChange={e => setImagen(e.detail.value!)}
-              />
-            </IonItem>
+          <IonLabel position="stacked">Imagen</IonLabel>
+          <IonButton onClick={tomarFoto}>Tomar Foto</IonButton>
+          {imagen && <IonImg src={imagen} />}
+        </IonItem>
             {success && <IonAlert
               isOpen={!!success}
               onDidDismiss={() => setSuccess('')}
