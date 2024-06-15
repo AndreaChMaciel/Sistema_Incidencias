@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonLabel, IonButton, IonAlert, IonTextarea } from '@ionic/react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const RegistraIncidencia: React.FC = () => {
   const [ct_nombre, setNombre] = useState('');
@@ -10,6 +11,8 @@ const RegistraIncidencia: React.FC = () => {
   const [imagen, setImagen] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const history = useHistory(); // Obtén el objeto history
 
   const registrarIncidencia = async () => {
     // Validar que los campos de correo y contraseña no estén vacíos
@@ -33,6 +36,10 @@ const RegistraIncidencia: React.FC = () => {
         setImagen('');
         
         setSuccess('Incidencia registrada con éxito!!')
+
+        // Redirigir a la vista de incidencias
+      history.push('/incidencias');
+        
     } catch (error) {
         setSuccess('Error al registrar la incidencia. Por favor, inténtelo de nuevo.');
       }

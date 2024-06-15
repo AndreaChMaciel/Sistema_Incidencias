@@ -33,7 +33,7 @@ const Login: React.FC = () => {
           setError('Credenciales inválidas');
         }
       } else {
-        history.push('/incidencias');
+        history.push('/registrar-incidencia');
       }
     } catch (err) {
       setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
