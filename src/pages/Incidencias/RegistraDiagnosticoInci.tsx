@@ -1,19 +1,45 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonLabel, IonButton, IonAlert, IonTextarea } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonLabel, IonButton, IonAlert, IonTextarea, IonImg } from '@ionic/react';
 import axios from 'axios';
+import { Plugins } from '@capacitor/core';
+import '@capacitor/camera';
+
+const { Camera } = Plugins as any;
+
+
 
 const RegistraDiagnosticoInci: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [ct_descripcion, setDescripcion] = useState('');
   const [cn_tiempo_estimado, setTiempoEstimado] = useState('');
   const [ct_observaciones, setObservaciones] = useState('');
-  const [imagen, setImagen] = useState('');
+  const [imagen, setImagen] = useState<string | undefined>(undefined); // Cambiado a string | undefined
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+
+  const tomarFoto = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: 'dataUrl', // Usar 'dataUrl' como tipo de resultado
+      });
+  
+      if (image && image.dataUrl) {
+        setImagen(image.dataUrl);
+      }
+    } catch (error) {
+      console.error('Error al tomar la foto', error);
+      setError('Error al tomar la foto. Por favor, inténtelo de nuevo.');
+    }
+  };
+
+ 
+  // REGISTRA DIAGNOSTICO
   const registrarDiagnostico = async () => {
-    if (!ct_descripcion || !cn_tiempo_estimado || !ct_observaciones || !imagen) {
+    if (!ct_descripcion || !cn_tiempo_estimado || !ct_observaciones) {
       setError('Por favor, proporcione información en todos los campos');
       return;
     }
@@ -68,11 +94,8 @@ const RegistraDiagnosticoInci: React.FC = () => {
         </IonItem>
         <IonItem>
           <IonLabel position="stacked">Imagen</IonLabel>
-          <IonInput
-            type="text"
-            value={imagen}
-            onIonChange={e => setImagen(e.detail.value!)}
-          />
+          <IonButton onClick={tomarFoto}>Tomar Foto</IonButton>
+          {imagen && <IonImg src={imagen} />}
         </IonItem>
         {error && <IonAlert
           isOpen={!!error}

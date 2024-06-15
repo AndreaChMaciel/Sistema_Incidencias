@@ -28,15 +28,23 @@
 
     "@applitools/eyes-testcafe": "^6.2.4",
 
-    "@capacitor/app": "6.0.0",
+    "@capacitor/android": "^6.1.0",
 
-    "@capacitor/core": "6.0.0",
+    "@capacitor/app": "^6.0.0",
 
-    "@capacitor/haptics": "6.0.0",
+    "@capacitor/camera": "^6.0.1",
 
-    "@capacitor/keyboard": "6.0.0",
+    "@capacitor/core": "^6.1.0",
 
-    "@capacitor/status-bar": "6.0.0",
+    "@capacitor/haptics": "^6.0.0",
+
+    "@capacitor/ios": "^6.1.0",
+
+    "@capacitor/keyboard": "^6.0.1",
+
+    "@capacitor/status-bar": "^6.0.0",
+
+    "@ionic/pwa-elements": "^3.3.0",
 
     "@ionic/react": "^8.0.0",
 
@@ -62,7 +70,7 @@
 
   "devDependencies": {
 
-    "@capacitor/cli": "6.0.0",
+    "@capacitor/cli": "^6.1.0",
 
     "@testing-library/dom": ">=7.21.4",
 
