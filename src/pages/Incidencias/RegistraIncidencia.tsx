@@ -78,7 +78,7 @@ const RegistraIncidencia: React.FC = () => {
           </IonHeader>
           <IonContent className="ion-padding">
             <IonItem>
-              <IonLabel position="stacked">Nombre</IonLabel>
+              <IonLabel position="stacked">Nombre completo de usuario:</IonLabel>
               <IonInput
                 type="text"
                 value={ct_nombre}
@@ -86,14 +86,14 @@ const RegistraIncidencia: React.FC = () => {
               />
             </IonItem>
             <IonItem>
-              <IonLabel position="stacked">Descripción</IonLabel>
+              <IonLabel position="stacked">Descripción de la incidencia:</IonLabel>
               <IonTextarea
                 value={ct_descripcion}
                 onIonChange={e => setDescripcion(e.detail.value!)}
               />
             </IonItem>
             <IonItem>
-              <IonLabel position="stacked">Lugar</IonLabel>
+              <IonLabel position="stacked">Lugar de incidencia:</IonLabel>
               <IonInput
                 type="text"
                 value={ct_lugar}
@@ -101,7 +101,7 @@ const RegistraIncidencia: React.FC = () => {
               />
             </IonItem>
             <IonItem>
-          <IonLabel position="stacked">Imagen</IonLabel>
+          <IonLabel position="stacked">Adjuntar foto:</IonLabel>
           <IonButton onClick={tomarFoto}>Tomar Foto</IonButton>
           {imagen && <IonImg src={imagen} />}
         </IonItem>

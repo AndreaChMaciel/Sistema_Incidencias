@@ -50,7 +50,7 @@ const Login: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonItem>
-          <IonLabel position="stacked">Correo</IonLabel>
+          <IonLabel position="stacked">Correo electrónico</IonLabel>
           <IonInput
             type="email"
             value={ct_correo}
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
             buttons={['OK']}
           />
         )}
-        <IonButton expand="block" onClick={validaLogin}>Login</IonButton>
+        <IonButton expand="block" onClick={validaLogin}>Iniciar sesión</IonButton>
       </IonContent>
     </IonPage>
   );

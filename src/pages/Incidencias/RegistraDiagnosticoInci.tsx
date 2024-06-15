@@ -83,7 +83,7 @@ const RegistraDiagnosticoInci: React.FC = () => {
           />
         </IonItem>
         <IonItem>
-          <IonLabel position="stacked">Tiempo Estimado (Indique hrs o min)</IonLabel>
+          <IonLabel position="stacked">Tiempo Estimado:</IonLabel>
           <IonInput
             type="number"
             value={cn_tiempo_estimado}
@@ -106,7 +106,7 @@ const RegistraDiagnosticoInci: React.FC = () => {
           />
         </IonItem>
         <IonItem>
-          <IonLabel position="stacked">Imagen</IonLabel>
+          <IonLabel position="stacked">Adjuntar foto</IonLabel>
           <IonButton onClick={tomarFoto}>Tomar Foto</IonButton>
           {imagen && <IonImg src={imagen} />}
         </IonItem>

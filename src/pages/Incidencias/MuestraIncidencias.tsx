@@ -52,7 +52,7 @@ const MuestraIncidencias: React.FC = () => {
                       <td style={{ padding: '8px', border: '1px solid #ddd' }}>{incidencia.ct_lugar}</td>
                       <td style={{ padding: '8px', border: '1px solid #ddd' }}>{incidencia.ct_descripcion}</td>
                       <td style={{ padding: '8px', border: '1px solid #ddd' }}>
-                        <IonButton onClick={() => manejaSeleccionIncidencia(incidencia.id)}>Diagnosticar</IonButton>
+                        <IonButton onClick={() => manejaSeleccionIncidencia(incidencia.id)}>Diagnóstico</IonButton>
                       </td>
                     </tr>
                   ))}
