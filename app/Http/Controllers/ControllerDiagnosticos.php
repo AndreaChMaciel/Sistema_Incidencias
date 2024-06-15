@@ -20,7 +20,7 @@ class ControllerDiagnosticos extends Controller
         ]);
 
         // Decodificar la imagen base64 y guardarla en el servidor
-        //$nombreImagen = $this->guardarImagen($request->imagen);
+        $nombreImagen = $this->guardarImagen($request->imagen);
 
         $diagnostico = new Diagnostico();
         $diagnostico->id = $id;
@@ -30,7 +30,7 @@ class ControllerDiagnosticos extends Controller
         $diagnostico->cb_compra = $request->cb_compra;
         $diagnostico->cn_tiempo_estimado = $request->cn_tiempo_estimado;
         $diagnostico->ct_observaciones = $request->ct_observaciones;
-        $diagnostico->imagen = $request->imagen; // Guardar el nombre de la imagen en la base de datos
+        $diagnostico->imagen = $nombreImagen; // Guardar el nombre de la imagen en la base de datos
         
        
         $diagnostico->save();
