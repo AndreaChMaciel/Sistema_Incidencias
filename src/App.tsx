@@ -5,6 +5,7 @@ import Login from './pages/Login/Login';
 import RegistrarIncidencia from './pages/Incidencias/RegistraIncidencia';
 import ListaIncidencias from './pages/Incidencias/MuestraIncidencias';
 import DiagnosticaIncidencia from './pages/Incidencias/RegistraDiagnosticoInci';
+import InicioEncargado from './pages/Inicios/InicioEncargado';
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -48,6 +49,7 @@ const App: React.FC = () => (
       <Route path="/registrar-incidencia" component={RegistrarIncidencia} />
       <Route path="/incidencias" component={ListaIncidencias} exact />
       <Route path="/incidencias/:id/diagnosticar" component={DiagnosticaIncidencia} exact />
+      <Route path="/Encargado" component={InicioEncargado} exact />
         <Route exact path="/" render={() => <Redirect to="/login" />} />
       </IonRouterOutlet>
     </IonReactRouter>

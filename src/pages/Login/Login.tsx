@@ -4,9 +4,9 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 const Login: React.FC = () => {
-  const [ct_correo, setCorreo] = useState('');
-  const [ct_contrasena, setContrasena] = useState('');
-  const [error, setError] = useState('');
+  const [ct_correo, setCorreo] = useState<string>('');
+  const [ct_contrasena, setContrasena] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const history = useHistory();
 
@@ -22,24 +22,19 @@ const Login: React.FC = () => {
         ct_contrasena
       });
 
-      const { success, mensaje } = response.data;
+      const { success, token, mensaje } = response.data;
 
-      if (!success) {
-        if (mensaje === 'La contraseña es incorrecta') {
-          setError('La contraseña es incorrecta');
-        } else if (mensaje === 'No se encontró ningún usuario con ese correo electrónico') {
-          setError('No se encontró ningún usuario con ese correo electrónico');
-        } else {
-          setError('Credenciales inválidas');
-        }
+      if (success) {
+        // Guarda el token en localStorage
+        localStorage.setItem('token', token);
+        //history.push('/registrar-incidencia');
       } else {
-        history.push('/registrar-incidencia');
+        setError(mensaje || 'Credenciales inválidas');
       }
     } catch (err) {
       setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
     }
   };
-
 
   return (
     <IonPage>
