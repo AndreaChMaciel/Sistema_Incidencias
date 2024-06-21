@@ -1,9 +1,9 @@
 import React from 'react';
-import { IonApp, IonContent, IonHeader, IonToolbar, IonTitle, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonIcon, IonList, IonSelect, IonSelectOption, IonPage } from '@ionic/react';
+import { IonApp, IonContent, IonHeader, IonToolbar, IonTitle, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonIcon, IonList, IonSelect, IonSelectOption, IonPage, IonThumbnail } from '@ionic/react';
 import { createOutline } from 'ionicons/icons';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 
-const InicioEncargado: React.FC = () => {
+const InicioSupervisor: React.FC = () => {
   const history = useHistory();
 
   const handleIconClick = (incidencia: number) => {
@@ -29,19 +29,37 @@ const InicioEncargado: React.FC = () => {
 
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>Pendientes</IonCardTitle>
+            <IonCardTitle>Revisar</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <IonList>
               <IonItem>
+              <IonThumbnail slot="start">
+                  <img
+                    alt="Silhouette of mountains"
+                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                  />
+                </IonThumbnail>
                 <IonLabel>INCIDENCIA 1: Reparación de tubo</IonLabel>
                 <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(1)} />
               </IonItem>
               <IonItem>
+              <IonThumbnail slot="start">
+                  <img
+                    alt="Silhouette of mountains"
+                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                  />
+                </IonThumbnail>
                 <IonLabel>INCIDENCIA 2: Corte de árbol</IonLabel>
                 <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(2)} />
               </IonItem>
               <IonItem>
+              <IonThumbnail slot="start">
+                  <img
+                    alt="Silhouette of mountains"
+                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                  />
+                </IonThumbnail>
                 <IonLabel>INCIDENCIA 3: Revisión computador</IonLabel>
                 <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(3)} />
               </IonItem>
@@ -51,15 +69,27 @@ const InicioEncargado: React.FC = () => {
         <IonCard>
 
           <IonCardHeader>
-            <IonCardTitle>Asignadas</IonCardTitle>
+            <IonCardTitle>Cerradas</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <IonList>
               <IonItem>
+              <IonThumbnail slot="start">
+                  <img
+                    alt="Silhouette of mountains"
+                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                  />
+                </IonThumbnail>
                 <IonLabel>INCIDENCIA 4: Revisión infraestructura</IonLabel>
                 <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(4)} />
               </IonItem>
               <IonItem>
+              <IonThumbnail slot="start">
+                  <img
+                    alt="Silhouette of mountains"
+                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                  />
+                </IonThumbnail>
                 <IonLabel>INCIDENCIA 3: Revisión infraestructura</IonLabel>
                 <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(5)} />
               </IonItem>
@@ -72,4 +102,4 @@ const InicioEncargado: React.FC = () => {
     </IonPage>
   );
 };
-export default InicioEncargado;
+export default InicioSupervisor;

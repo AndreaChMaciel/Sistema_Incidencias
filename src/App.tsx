@@ -5,8 +5,10 @@ import Login from './pages/Login/Login';
 import RegistrarIncidencia from './pages/Incidencias/RegistraIncidencia';
 import ListaIncidencias from './pages/Incidencias/MuestraIncidencias';
 import DiagnosticaIncidencia from './pages/Incidencias/RegistraDiagnosticoInci';
-import InicioEncargado from './pages/Inicios/InicioEncargado';
-
+import InicioEncargado from './pages/PantallasInicio/InicioEncargado';
+import InicioUsuario from './pages/PantallasInicio/InicioUsuario';
+import InicioTecnico from './pages/PantallasInicio/InicioTecnico';
+import InicioSupervisor from './pages/PantallasInicio/InicioSupervisor';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -50,6 +52,9 @@ const App: React.FC = () => (
       <Route path="/incidencias" component={ListaIncidencias} exact />
       <Route path="/incidencias/:id/diagnosticar" component={DiagnosticaIncidencia} exact />
       <Route path="/Encargado" component={InicioEncargado} exact />
+      <Route path="/Usuario" component={InicioUsuario} exact />
+      <Route path="/Tecnico" component={InicioTecnico} exact />
+      <Route path="/Supervisor" component={InicioSupervisor} exact />
         <Route exact path="/" render={() => <Redirect to="/login" />} />
       </IonRouterOutlet>
     </IonReactRouter>

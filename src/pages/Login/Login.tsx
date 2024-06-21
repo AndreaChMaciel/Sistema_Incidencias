@@ -4,32 +4,32 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 const Login: React.FC = () => {
-  const [ct_correo, setCorreo] = useState<string>('');
-  const [ct_contrasena, setContrasena] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
 
   const history = useHistory();
 
   const validaLogin = async () => {
-    if (!ct_correo || !ct_contrasena) {
+    if (!email || !password) {
       setError('Por favor, proporcione un correo y una contraseña');
       return;
     }
 
     try {
       const response = await axios.post('http://localhost:8000/api/login', {
-        ct_correo,
-        ct_contrasena
+        email,
+        password
       });
 
-      const { success, token, mensaje } = response.data;
+      const { success, token, message } = response.data;
 
       if (success) {
         // Guarda el token en localStorage
         localStorage.setItem('token', token);
         //history.push('/registrar-incidencia');
       } else {
-        setError(mensaje || 'Credenciales inválidas');
+        setError(message || 'Credenciales inválidas');
       }
     } catch (err) {
       setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
@@ -48,16 +48,16 @@ const Login: React.FC = () => {
           <IonLabel position="stacked">Correo electrónico</IonLabel>
           <IonInput
             type="email"
-            value={ct_correo}
-            onIonChange={e => setCorreo(e.detail.value!)}
+            value={email}
+            onIonChange={e => setEmail(e.detail.value!)}
           />
         </IonItem>
         <IonItem>
           <IonLabel position="stacked">Contraseña</IonLabel>
           <IonInput
             type="password"
-            value={ct_contrasena}
-            onIonChange={e => setContrasena(e.detail.value!)}
+            value={password}
+            onIonChange={e => setPassword(e.detail.value!)}
           />
         </IonItem>
         {error && (
