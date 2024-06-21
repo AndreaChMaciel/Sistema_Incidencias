@@ -19,4 +19,9 @@ class Incidencia extends Model
     {
         return $this->hasMany(Diagnostico::class, 'id');
     }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'cn_id_usuario');
+    }
 }

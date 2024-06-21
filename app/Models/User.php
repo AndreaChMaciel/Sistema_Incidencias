@@ -13,15 +13,16 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 't_usuarios';
+    protected $primaryKey = 'cn_id_usuario';
     protected $fillable = [
         
-        'ct_correo',
-        'ct_contrasena',
+        'email',
+        'password',
     ];
 
     protected $hidden = [
-        'ct_contrasena',
-        'remember_token',
+        'email',
+        'password',
     ];
 
     protected $casts = [
@@ -36,7 +37,7 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         // Reemplaza 'ct_contrasena' con el nombre real del campo de contraseña en tu base de datos
-        $this->attributes['ct_contrasena'] = $value;
+        $this->attributes['password'] = $value;
     }
 
     /**
@@ -47,7 +48,7 @@ class User extends Authenticatable
     public function getAuthPassword()
     {
        
-        return $this->ct_contrasena;
+        return $this->password;
     }
 
     /**
@@ -57,6 +58,11 @@ class User extends Authenticatable
      */
     public function getAuthIdentifierName()
     {
-        return 'ct_correo';
+        return 'email';
+    }
+    
+    public function roles()
+    {
+        return $this->belongsToMany(Rol::class, 't_roles_usuario', 'cn_id_usuario', 'cn_id_rol');
     }
 }

@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Incidencia;
+use App\Notifications\IncidenciaRegistradaNotification;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class ControllerIncidencias extends Controller
 {
@@ -16,8 +21,18 @@ class ControllerIncidencias extends Controller
 
     public function store(Request $request)
     {
+        // Obtener los datos del usuario
+        //$ct_correo = $request->input('ct_correo');
+
+         // Buscar el usuario en la base de datos por su ct_correo electrónico
+         //$usuario = DB::table('t_usuarios')->where('ct_correo', $ct_correo)->first();
+
+        //  if (!$usuario) {
+        //     return response()->json(['success' => false, 'message' => 'Usuario no encontrado.'], 404);
+        // }
 
         $nombreImagen = $this->guardarImagen($request->imagen);
+
         // Insertar un nuevo registro en la tabla
         $incidencia = new Incidencia();
         $incidencia->ct_nombre = $request->ct_nombre;
@@ -36,6 +51,15 @@ class ControllerIncidencias extends Controller
         $year = date('Y');
         $incidencia->ct_id_incidencia = $year . "-" . $numeroConsecutivo;
         $incidencia->save();
+
+        // $user = Auth::user();
+        // Enviar la notificación al correo del usuario
+        //Notification::route('mail', $incidencia->$ct_correo)->notify(new IncidenciaRegistradaNotification($incidencia));
+        
+        // Enviar notificación por correo electrónico al usuario autenticado
+        // if ($user) {
+        //     $user->notify(new IncidenciaRegistradaNotification($incidencia));
+        // }
 
         
         return response()->json(['success' => true, 'message' => 'Incidencia registrada con éxito!!']);

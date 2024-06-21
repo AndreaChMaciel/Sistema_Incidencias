@@ -2,10 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\Sanctum;
 
 use App\Http\Controllers\ControllerAuth;
 use App\Http\Controllers\ControllerDiagnosticos;
 use App\Http\Controllers\ControllerIncidencias;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,34 +19,41 @@ use App\Http\Controllers\ControllerIncidencias;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/login', [ControllerAuth::class, 'login']);
+Route::post('/logout', [ControllerAuth::class, 'logout']);
+
+
+
+
+
+
+// routes/api.php para proteger las rutas deben estar dentro de auth group
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });
 
-//USUARIOS
-//para traer todos los registros
-Route::get('/usuarios','App\Http\Controllers\ControllerUsuarios@index');
 
-//crear un registro
-Route::post('/usuarios/crear','App\Http\Controllers\ControllerUsuarios@store');
-
-//Actualizar
-Route::put('/usuarios/{cn_id_usuario}','App\Http\Controllers\ControllerUsuarios@update');
-
-//Eliminar
-Route::delete('/usuarios/{cn_id_usuario}','App\Http\Controllers\ControllerUsuarios@destroy');
+Route::group(['middleware' => ['rol:user']], function () {
+    // Rutas para usuarios normales
+});
 
 
-//LOGUEO
-Route::post('/login', [ControllerAuth::class, 'verificarContrasena']);
 
 
-//Incidencias
 
-//registrar una incidencia
-//Route::post('/incidencias/crear', [ControllerIncidencias::class, 'store']);
-Route::post('/incidencias/crear','App\Http\Controllers\ControllerIncidencias@store');
 
-Route::get('/incidencias','App\Http\Controllers\ControllerIncidencias@index');
+// //LOGUEO
+// Route::post('/login', [ControllerAuth::class, 'verificarContrasena']);
 
-Route::post('/incidencias/{id}/diagnosticar', 'App\Http\Controllers\ControllerDiagnosticos@registrarDiagnostico');
+
+// //Incidencias
+
+// //registrar una incidencia
+// //Route::post('/incidencias/crear', [ControllerIncidencias::class, 'store']);
+// Route::post('/incidencias/crear','App\Http\Controllers\ControllerIncidencias@store');
+
+// Route::get('/incidencias','App\Http\Controllers\ControllerIncidencias@index');
+
+// Route::post('/incidencias/{id}/diagnosticar', 'App\Http\Controllers\ControllerDiagnosticos@registrarDiagnostico');
