@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Laravel\Sanctum\Sanctum;
-
 use App\Http\Controllers\ControllerAuth;
 use App\Http\Controllers\ControllerDiagnosticos;
 use App\Http\Controllers\ControllerIncidencias;
@@ -18,59 +16,35 @@ use App\Http\Controllers\ControllerIncidencias;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-//  Pruebas
+
+// Ruta de login sin middleware para permitir el acceso
 Route::post('login', [ControllerAuth::class, 'login']);
 
+// Rutas protegidas por el middleware de autenticación JWT
+Route::group(['middleware' => 'jwt.auth'], function () {
+   
 
-
-Route::middleware(['auth:api', 'role:Usuario', 'role:Encargado', 'role:Tecnico', 'role:Supervisor'])->group(function () {
-    // Rutas para otros roles
+    // Rutas para incidencias
+    Route::post('/incidencias/crear', [ControllerIncidencias::class, 'store']);
+    Route::get('/incidencias', [ControllerIncidencias::class, 'index']);
+    Route::post('/incidencias/{id}/diagnosticar', [ControllerDiagnosticos::class, 'registrarDiagnostico']);
+    
+    // Aquí puedes añadir más rutas protegidas por JWT
 });
 
+// Rutas específicas para roles
+Route::middleware(['auth:api', 'role:Usuario'])->group(function () {
+    // Rutas para el rol Usuario
+});
 
-// --------------------------------------------------------
-// Route::post('/login', [ControllerAuth::class, 'login']);
-// Route::post('/logout', [ControllerAuth::class, 'logout']);
+Route::middleware(['auth:api', 'role:Encargado'])->group(function () {
+    // Rutas para el rol Encargado
+});
 
+Route::middleware(['auth:api', 'role:Tecnico'])->group(function () {
+    // Rutas para el rol Técnico
+});
 
-
-
-
-
-// // routes/api.php para proteger las rutas deben estar dentro de auth group
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::get('/user', function (Request $request) {
-//         return $request->user();
-//     });
-// });
-
-
-// Route::group(['middleware' => ['rol:user']], function () {
-//     // Rutas para usuarios normales
-// });
-
-
-
-// Route::middleware(['auth', 'handle:admin,user'])->group(function () {
-//     Route::post('/incidencias/crear','App\Http\Controllers\ControllerIncidencias@store');
-//     Route::get('/incidencias','App\Http\Controllers\ControllerIncidencias@index');
-//     //Route::post('/incidents', [IncidentController::class, 'store']);
-// });
-
-
-
-
-
-// //LOGUEO
-// Route::post('/login', [ControllerAuth::class, 'verificarContrasena']);
-
-
-// //Incidencias
-
-// //registrar una incidencia
-// //Route::post('/incidencias/crear', [ControllerIncidencias::class, 'store']);
-// Route::post('/incidencias/crear','App\Http\Controllers\ControllerIncidencias@store');
-
-// Route::get('/incidencias','App\Http\Controllers\ControllerIncidencias@index');
-
-// Route::post('/incidencias/{id}/diagnosticar', 'App\Http\Controllers\ControllerDiagnosticos@registrarDiagnostico');
+Route::middleware(['auth:api', 'role:Supervisor'])->group(function () {
+    // Rutas para el rol Supervisor
+});

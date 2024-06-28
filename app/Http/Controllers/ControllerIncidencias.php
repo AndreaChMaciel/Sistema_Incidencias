@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ControllerIncidencias extends Controller
 {
@@ -21,16 +22,11 @@ class ControllerIncidencias extends Controller
 
     public function store(Request $request)
     {
-        // Obtener los datos del usuario
-        //$ct_correo = $request->input('ct_correo');
-
-         // Buscar el usuario en la base de datos por su ct_correo electrónico
-         //$usuario = DB::table('t_usuarios')->where('ct_correo', $ct_correo)->first();
-
-        //  if (!$usuario) {
-        //     return response()->json(['success' => false, 'message' => 'Usuario no encontrado.'], 404);
-        // }
-
+       
+        // Obtener el usuario autenticado desde el token JWT
+        $user = JWTAuth::parseToken()->authenticate();
+       
+        \Log::info('Token recibido: ' . $request->header('Authorization'));
         $nombreImagen = $this->guardarImagen($request->imagen);
 
         // Insertar un nuevo registro en la tabla
@@ -39,7 +35,8 @@ class ControllerIncidencias extends Controller
         $incidencia->ct_descripcion = $request->ct_descripcion;
         $incidencia->ct_lugar = $request->ct_lugar;
         $incidencia->imagen = $nombreImagen;
-
+        $incidencia->cn_id_estado = 0; // Asignar el estado "Registrado"
+        $incidencia->cn_id_usuario = $user->cn_id_usuario; // Asignar el ID del usuario autenticado
         // Guardar la incidencia en la base de datos
         $incidencia->save();
 
@@ -47,22 +44,15 @@ class ControllerIncidencias extends Controller
 
         
         // Generar el número de incidencia con el formato deseado
-        $numeroConsecutivo = str_pad($incidencia->id, 6, '0', STR_PAD_LEFT);
+        $numeroConsecutivo = str_pad($incidencia->cn_id_incidencia, 6, '0', STR_PAD_LEFT);
         $year = date('Y');
-        $incidencia->ct_id_incidencia = $year . "-" . $numeroConsecutivo;
+        $incidencia->cn_incidencia = $year . "-" . $numeroConsecutivo;
         $incidencia->save();
 
-        // $user = Auth::user();
-        // Enviar la notificación al correo del usuario
-        //Notification::route('mail', $incidencia->$ct_correo)->notify(new IncidenciaRegistradaNotification($incidencia));
         
-        // Enviar notificación por correo electrónico al usuario autenticado
-        // if ($user) {
-        //     $user->notify(new IncidenciaRegistradaNotification($incidencia));
-        // }
 
         
-        return response()->json(['success' => true, 'message' => 'Incidencia registrada con éxito!!']);
+        return response()->json(['success' => true, 'message' => 'Incidencia registrada con éxito!!', 'incidencia' => $incidencia],201);
 
         
         

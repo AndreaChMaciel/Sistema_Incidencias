@@ -12,12 +12,14 @@ class Incidencia extends Model
 
 
     // Define la clave primaria compuesta
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'cn_id_incidencia';
+
+    protected $timestap = false;
 
    
     public function diagnosticos()
     {
-        return $this->hasMany(Diagnostico::class, 'id');
+        return $this->hasMany(Diagnostico::class, 'cn_id_incidencia');
     }
 
     public function usuario()
