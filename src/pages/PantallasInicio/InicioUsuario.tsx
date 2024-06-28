@@ -1,28 +1,6 @@
-import React, { useState, useRef } from 'react';
-import {
-  IonButtons,
-  IonButton,
-  IonModal,
-  IonHeader,
-  IonContent,
-  IonToolbar,
-  IonTitle,
-  IonPage,
-  IonItem,
-  IonInput,
-  IonLabel,
-  IonSelect,
-  IonSelectOption,
-  IonCard,
-  IonCardTitle,
-  IonCardHeader,
-  IonList,
-  IonIcon,
-  IonCardContent,
-  IonFabButton,
-  IonFab,
-} from '@ionic/react';
-import { OverlayEventDetail } from '@ionic/core/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption, IonCard, IonCardTitle, IonCardHeader, IonList, IonIcon, IonCardContent, IonFabButton, IonFab, IonModal, IonButtons, IonButton, IonInput } from '@ionic/react';
+import { OverlayEventDetail } from '@ionic/core';
 import { add, createOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 
@@ -31,11 +9,24 @@ const InicioUsuario: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const input = useRef<HTMLIonInputElement>(null);
 
-  const [message, setMessage] = useState(
-    'This modal example uses triggers to automatically open a modal when the button is clicked.'
-  );
-
+  const [message, setMessage] = useState('This modal example uses triggers to automatically open a modal when the button is clicked.');
+  const [roles, setRoles] = useState<string[]>([]); // Estado para almacenar los roles del usuario
+  const [selectedRole, setSelectedRole] = useState<string>(''); // Estado para almacenar el rol seleccionado
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    // Cargar los roles del usuario al montar el componente
+    fetchRoles();
+  }, []);
+
+  const fetchRoles = () => {
+    // Obtener los roles almacenados en localStorage
+    
+    const rolesFromStorage = localStorage.getItem('roles');
+    if (rolesFromStorage) {
+      setRoles(JSON.parse(rolesFromStorage));
+    }
+  };
 
   const handleIconClick = (incidencia: number) => {
     history.push(`/incidencia/${incidencia}`);
@@ -51,6 +42,11 @@ const InicioUsuario: React.FC = () => {
     }
   };
 
+  const handleRoleChange = (event: CustomEvent) => {
+    setSelectedRole(event.detail.value);
+    // Aquí puedes realizar acciones adicionales cuando se cambie el rol seleccionado
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -58,16 +54,15 @@ const InicioUsuario: React.FC = () => {
           <IonTitle>Incidencias</IonTitle>
           <IonItem slot="end">
             <IonLabel>Roles: </IonLabel>
-            <IonSelect placeholder="">
-              <IonSelectOption value="admin">Admin</IonSelectOption>
-              <IonSelectOption value="user">User</IonSelectOption>
-              <IonSelectOption value="guest">Guest</IonSelectOption>
+            <IonSelect value={selectedRole} placeholder="Selecciona un rol" onIonChange={handleRoleChange}>
+              {roles.map((rol, index) => (
+                <IonSelectOption key={index} value={rol}>{rol}</IonSelectOption>
+              ))}
             </IonSelect>
           </IonItem>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-
         {/* Pendientes */}
         <IonCard>
           <IonCardHeader>
@@ -110,7 +105,6 @@ const InicioUsuario: React.FC = () => {
           </IonCardContent>
         </IonCard>
     
-        
         <IonFab vertical="bottom" horizontal="center" slot="fixed">
           <IonFabButton onClick={() => setIsOpen(true)}>
             <IonIcon icon={add}></IonIcon>

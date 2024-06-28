@@ -16,24 +16,37 @@ const Login: React.FC = () => {
       return;
     }
 
+    console.log(email, password);
     try {
       const response = await axios.post('http://localhost:8000/api/login', {
         email,
         password
       });
 
-      const { success, token, message } = response.data;
-
-      if (success) {
-        // Guarda el token en localStorage
-        localStorage.setItem('token', token);
-        //history.push('/registrar-incidencia');
-      } else {
+      const { user, message,roles } = response.data;
+      console.log(response.data);
+      
+    if (user) {
+        
+      
+        if (roles.includes('Usuario')) {
+            history.push('/Usuario');
+        } else if (roles.includes('Encargado')) {
+            history.push('/Encargado'); 
+        } else if (roles.includes('Tecnico')) {
+            history.push('/Tecnico');
+        } else if (roles.includes('Supervisor')) {
+            history.push('/Supervisor');
+        } else {
+            setError('Rol no reconocido');
+        }
+    } else {
         setError(message || 'Credenciales inválidas');
-      }
-    } catch (err) {
-      setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
     }
+} catch (err) {
+    console.error(err);
+    setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
+}
   };
 
   return (

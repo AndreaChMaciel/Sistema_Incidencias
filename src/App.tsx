@@ -51,11 +51,12 @@ const App: React.FC = () => (
       <Route path="/registrar-incidencia" component={RegistrarIncidencia} />
       <Route path="/incidencias" component={ListaIncidencias} exact />
       <Route path="/incidencias/:id/diagnosticar" component={DiagnosticaIncidencia} exact />
-      <Route path="/Encargado" component={InicioEncargado} exact />
-      <Route path="/Usuario" component={InicioUsuario} exact />
-      <Route path="/Tecnico" component={InicioTecnico} exact />
-      <Route path="/Supervisor" component={InicioSupervisor} exact />
-        <Route exact path="/" render={() => <Redirect to="/login" />} />
+
+      <Route path="/Usuario" component={InicioUsuario}/>
+      <Route path="/Encargado" component={InicioEncargado} />
+      <Route path="/Tecnico" component={InicioTecnico} />
+      <Route path="/Supervisor" component={InicioSupervisor} />
+      <Route exact path="/" render={() => <Redirect to="/login" />} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
