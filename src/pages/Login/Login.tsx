@@ -18,37 +18,31 @@ const Login: React.FC = () => {
 
     console.log(email, password);
     try {
-      const response = await axios.post('http://localhost:8000/api/login', {
-        email,
-        password
-      });
-
-      const { user, message,roles } = response.data;
-      console.log(response.data);
-      
-    if (user) {
+      const response = await axios.post('http://localhost:8000/api/login', { email, password });
         
+
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       
-        if (roles.includes('Usuario')) {
-            history.push('/Usuario');
-        } else if (roles.includes('Encargado')) {
-            history.push('/Encargado'); 
-        } else if (roles.includes('Tecnico')) {
-            history.push('/Tecnico');
-        } else if (roles.includes('Supervisor')) {
-            history.push('/Supervisor');
-        } else {
-            setError('Rol no reconocido');
-        }
+
+      const { roles } = response.data;
+      
+      if (roles.includes('Usuario')) {
+        history.push('/Usuario');
+    } else if (roles.includes('Encargado')) {
+        history.push('/Encargado'); 
+    } else if (roles.includes('Tecnico')) {
+        history.push('/Tecnico');
+    } else if (roles.includes('Supervisor')) {
+        history.push('/Supervisor');
     } else {
-        setError(message || 'Credenciales inválidas');
+        setError('Rol no reconocido');
     }
-} catch (err) {
+  } catch (err) {
     console.error(err);
     setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
-}
-  };
-
+  }
+};
   return (
     <IonPage>
       <IonHeader>

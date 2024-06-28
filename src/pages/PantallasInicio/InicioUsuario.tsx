@@ -3,6 +3,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel
 import { OverlayEventDetail } from '@ionic/core';
 import { add, createOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
+import RegistraIncidencia from '../Incidencias/RegistraIncidencia';
 
 const InicioUsuario: React.FC = () => {
   const history = useHistory();
@@ -116,26 +117,13 @@ const InicioUsuario: React.FC = () => {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonButton onClick={() => setIsOpen(false)}>Cancel</IonButton>
+              <IonButton onClick={() => setIsOpen(false)}>Cancelar</IonButton>
             </IonButtons>
-            <IonTitle>Welcome</IonTitle>
-            <IonButtons slot="end">
-              <IonButton strong={true} onClick={() => confirm()}>
-                Confirm
-              </IonButton>
-            </IonButtons>
+            <IonTitle>Registra una incidencia</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <IonItem>
-            <IonInput
-              label="Enter your name"
-              labelPlacement="stacked"
-              ref={input}
-              type="text"
-              placeholder="Your name"
-            />
-          </IonItem>
+          <RegistraIncidencia />
         </IonContent>
       </IonModal>
     </IonPage>

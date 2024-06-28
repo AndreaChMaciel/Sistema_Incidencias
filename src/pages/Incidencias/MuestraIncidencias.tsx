@@ -48,7 +48,7 @@ const MuestraIncidencias: React.FC = () => {
                 <tbody>
                   {incidencias.map((incidencia: any) => (
                     <tr key={incidencia.id}>
-                      <td style={{ padding: '8px', border: '1px solid #ddd' }}>{incidencia.ct_id_incidencia}</td>
+                      <td style={{ padding: '8px', border: '1px solid #ddd' }}>{incidencia.cn_incidencia}</td>
                       <td style={{ padding: '8px', border: '1px solid #ddd' }}>{incidencia.ct_lugar}</td>
                       <td style={{ padding: '8px', border: '1px solid #ddd' }}>{incidencia.ct_descripcion}</td>
                       <td style={{ padding: '8px', border: '1px solid #ddd' }}>
