@@ -11,10 +11,10 @@ class Rol extends Model
 
     protected $table = 't_roles';
     protected $primaryKey = 'cn_id_rol';
+    public $timestamps = false;
 
-    // Relación muchos a muchos con usuarios
-    public function usuarios()
+    public function users()
     {
-        return $this->belongsToMany(Usuario::class, 't_roles_usuario', 'rol_id', 'usuario_id');
+        return $this->belongsToMany(User::class, 't_roles_usuario', 'cn_id_rol', 'cn_id_usuario');
     }
 }

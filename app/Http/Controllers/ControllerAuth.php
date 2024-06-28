@@ -4,36 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\User;
+
 use Illuminate\Support\Facades\DB;
 
 class ControllerAuth extends Controller
 {
 
     public function login(Request $request)
-    {
-        // Obtener las credenciales del formulario
-        $credentials = $request->only('email', 'password');
+{
+    $credentials = $request->only('email', 'password');
 
-        // Buscar al usuario por email (o tu campo de identificación)
-        $user = User::where('email', $credentials['email'])->first();
+    // Buscar el usuario por email y contraseña (sin encriptar)
+    $user = User::where('email', $credentials['email'])
+                ->where('password', $credentials['password'])
+                ->first();
 
-        // Verificar si el usuario existe y la contraseña coincide
-        if ($user && $user->password == $credentials['password']) {
-            // Autenticar al usuario
-            Auth::login($user);
+   // Verificar si el usuario existe
+   if ($user) {
+    // Obtener los roles del usuario directamente desde la base de datos
+    $roles = DB::table('t_roles_usuario')
+                ->join('t_roles', 't_roles_usuario.cn_id_rol', '=', 't_roles.cn_id_rol')
+                ->where('t_roles_usuario.cn_id_usuario', $user->cn_id_usuario)
+                ->pluck('t_roles.ct_descripcion')
+                ->toArray();
 
-            // Obtener el usuario autenticado
-            $authenticatedUser = Auth::user();
 
-            return response()->json([
-                'user' => $authenticatedUser,
-                'message' => 'Inicio de sesión exitoso!!',
-            ]);
-        } else {
-            return response()->json(['message' => 'Credenciales inválidas'], 401);
-        }
+        // Autenticación exitosa
+        Auth::login($user); // Iniciar sesión manualmente
+        return response()->json(['user' => $user, 'roles' => $roles, 'message' => 'Login successful']);
+    } else {
+        // Credenciales incorrectas
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
+}
    
 
 
@@ -41,7 +46,7 @@ class ControllerAuth extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Logged out successfully']);
+        return response()->json(['message' => 'Cerrrado con éxito']);
     }
     // public function verificarContrasena(Request $request)
     // {
