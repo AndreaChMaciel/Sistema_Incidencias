@@ -4,37 +4,52 @@ import { OverlayEventDetail } from '@ionic/core';
 import { add, createOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import RegistraIncidencia from '../Incidencias/RegistraIncidencia';
+import axios from 'axios';
 
 const InicioUsuario: React.FC = () => {
   const history = useHistory();
   const modal = useRef<HTMLIonModalElement>(null);
-  const input = useRef<HTMLIonInputElement>(null);
 
   const [message, setMessage] = useState('This modal example uses triggers to automatically open a modal when the button is clicked.');
   const [roles, setRoles] = useState<string[]>([]); // Estado para almacenar los roles del usuario
   const [selectedRole, setSelectedRole] = useState<string>(''); // Estado para almacenar el rol seleccionado
+  const [incidenciasPendientes, setIncidenciasPendientes] = useState<any[]>([]); // Estado para almacenar las incidencias pendientes
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     // Cargar los roles del usuario al montar el componente
     fetchRoles();
+    // Cargar las incidencias pendientes del usuario al montar el componente
+    fetchIncidenciasPendientes();
   }, []);
 
   const fetchRoles = () => {
     // Obtener los roles almacenados en localStorage
-    
     const rolesFromStorage = localStorage.getItem('roles');
     if (rolesFromStorage) {
       setRoles(JSON.parse(rolesFromStorage));
     }
   };
 
-  const handleIconClick = (incidencia: number) => {
-    history.push(`/incidencia/${incidencia}`);
+  const fetchIncidenciasPendientes = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:8000/api/incidencias-usuario', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        // params: {
+        //   cn_id_estado: 0 // Filtrar por incidencias en estado 0
+        // }
+      });
+      setIncidenciasPendientes(response.data);
+    } catch (error) {
+      console.error('Error obteniendo incidencias pendientes:', error);
+    }
   };
 
-  const confirm = () => {
-    modal.current?.dismiss(input.current?.value, 'confirm');
+  const handleIconClick = (incidencia: number) => {
+    history.push(`/incidencia/${incidencia}`);
   };
 
   const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
@@ -70,20 +85,15 @@ const InicioUsuario: React.FC = () => {
             <IonCardTitle>Pendientes</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonList>
-              <IonItem>
-                <IonLabel>INCIDENCIA 1: Reparación de tubo</IonLabel>
-                <IonLabel slot="end">Estado...</IonLabel>
-              </IonItem>
-              <IonItem>
-                <IonLabel>INCIDENCIA 2: Corte de árbol</IonLabel>
-                <IonLabel slot="end">Estado...</IonLabel>
-              </IonItem>
-              <IonItem>
-                <IonLabel>INCIDENCIA 3: Revisión computador</IonLabel>
-                <IonLabel slot="end">Estado...</IonLabel>
-              </IonItem>
-            </IonList>
+          <IonList>
+      {incidenciasPendientes.map((incidencia, index) => (
+        <IonItem key={index}>
+          <IonLabel>{`INCIDENCIA ${incidencia.cn_id_incidencia}: ${incidencia.ct_descripcion}`}</IonLabel>
+          <IonLabel slot="end">{incidencia.estado_descripcion}</IonLabel>
+          <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(incidencia.cn_id_incidencia)} />
+        </IonItem>
+      ))}
+    </IonList>
           </IonCardContent>
         </IonCard>
 

@@ -74,7 +74,7 @@ const RegistraIncidencia: React.FC = () => {
         setSuccess('Incidencia registrada con éxito!!')
 
       // Redirigir a la vista de incidencias
-      history.replace('/incidencias');
+      history.replace('/Usuario');
         
     } catch (error) {
         setSuccess('Error al registrar la incidencia. Por favor, inténtelo de nuevo.');

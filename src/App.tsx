@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Login from './pages/Login/Login';
@@ -9,6 +9,7 @@ import InicioEncargado from './pages/PantallasInicio/InicioEncargado';
 import InicioUsuario from './pages/PantallasInicio/InicioUsuario';
 import InicioTecnico from './pages/PantallasInicio/InicioTecnico';
 import InicioSupervisor from './pages/PantallasInicio/InicioSupervisor';
+import AsignarTecnicos from './pages/Incidencias/AsignarTecnicos';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -58,6 +59,10 @@ const App: React.FC = () => (
       <Route path="/Supervisor" component={InicioSupervisor} />
       <Route exact path="/" render={() => <Redirect to="/login" />} />
       </IonRouterOutlet>
+      <Switch>
+                {/* Otras rutas */}
+                <Route path="/asignar-tecnicos/:incidenciaId" component={AsignarTecnicos} />
+            </Switch>
     </IonReactRouter>
   </IonApp>
 );

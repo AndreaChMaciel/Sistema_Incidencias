@@ -1,10 +1,30 @@
-import React from 'react';
-import { IonApp, IonContent, IonHeader, IonToolbar, IonTitle, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonIcon, IonList, IonSelect, IonSelectOption, IonPage, IonThumbnail } from '@ionic/react';
+import React, { useState, useEffect } from 'react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonIcon, IonList, IonThumbnail, IonSelect, IonSelectOption } from '@ionic/react';
 import { createOutline } from 'ionicons/icons';
-import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const InicioEncargado: React.FC = () => {
   const history = useHistory();
+  const [incidencias, setIncidencias] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchIncidencias();
+  }, []);
+
+  const fetchIncidencias = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get('http://localhost:8000/api/incidencias-encargado', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setIncidencias(response.data);
+    } catch (error) {
+      console.error('Error fetching incidencias:', error);
+    }
+  };
 
   const handleIconClick = (incidencia: number) => {
     history.push(`/incidencia/${incidencia}`);
@@ -26,80 +46,52 @@ const InicioEncargado: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Pendientes</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <IonList>
-              <IonItem>
-              <IonThumbnail slot="start">
-                  <img
-                    alt="Silhouette of mountains"
-                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                  />
-                </IonThumbnail>
-                <IonLabel>INCIDENCIA 1: Reparación de tubo</IonLabel>
-                <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(1)} />
-              </IonItem>
-              <IonItem>
-              <IonThumbnail slot="start">
-                  <img
-                    alt="Silhouette of mountains"
-                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                  />
-                </IonThumbnail>
-                <IonLabel>INCIDENCIA 2: Corte de árbol</IonLabel>
-                <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(2)} />
-              </IonItem>
-              <IonItem>
-              <IonThumbnail slot="start">
-                  <img
-                    alt="Silhouette of mountains"
-                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                  />
-                </IonThumbnail>
-                <IonLabel>INCIDENCIA 3: Revisión computador</IonLabel>
-                <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(3)} />
-              </IonItem>
+              {incidencias.filter(incidencia => incidencia.cn_id_estado === 0).map((incidencia, index) => (
+                <IonItem key={index}>
+                  <IonThumbnail slot="start">
+                    <img
+                      alt={`Imagen de la incidencia ${incidencia.cn_incidencia}`}
+                      src={`http://localhost:8000/imagenes/${incidencia.imagen}`}
+                    />
+                  </IonThumbnail>
+                  <IonLabel>{`INCIDENCIA ${incidencia.cn_incidencia}: ${incidencia.ct_descripcion}`}</IonLabel>
+                  <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(incidencia.cn_id_incidencia)} />
+                </IonItem>
+              ))}
             </IonList>
           </IonCardContent>
         </IonCard>
-        <IonCard>
 
+        <IonCard>
           <IonCardHeader>
             <IonCardTitle>Asignadas</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <IonList>
-              <IonItem>
-              <IonThumbnail slot="start">
-                  <img
-                    alt="Silhouette of mountains"
-                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                  />
-                </IonThumbnail>
-                <IonLabel>INCIDENCIA 4: Revisión infraestructura</IonLabel>
-                <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(4)} />
-              </IonItem>
-              <IonItem>
-              <IonThumbnail slot="start">
-                  <img
-                    alt="Silhouette of mountains"
-                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                  />
-                </IonThumbnail>
-                <IonLabel>INCIDENCIA 3: Revisión infraestructura</IonLabel>
-                <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(5)} />
-              </IonItem>
+              {incidencias.filter(incidencia => incidencia.cn_id_estado !== 0).map((incidencia, index) => (
+                <IonItem key={index}>
+                  <IonThumbnail slot="start">
+                    <img
+                      alt={`Imagen de la incidencia ${incidencia.cn_incidencia}`}
+                      src={`http://localhost:8000/imagenes/${incidencia.imagen}`}
+                    />
+                  </IonThumbnail>
+                  <IonLabel>{incidencia.ct_nombre}: {incidencia.ct_descripcion}</IonLabel>
+                  <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(incidencia.cn_id_incidencia)} />
+                </IonItem>
+              ))}
             </IonList>
           </IonCardContent>
         </IonCard>
-
-        
       </IonContent>
     </IonPage>
   );
 };
+
 export default InicioEncargado;

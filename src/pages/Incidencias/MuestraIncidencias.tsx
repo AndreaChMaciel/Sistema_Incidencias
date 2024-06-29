@@ -10,10 +10,16 @@ const MuestraIncidencias: React.FC = () => {
   useEffect(() => {
     const fetchIncidencias = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/incidencias');
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:8000/api/incidencias', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setIncidencias(response.data);
       } catch (error) {
         console.error('Error fetching incidencias:', error);
+        setError('Error fetching incidencias');
       }
     };
 
@@ -68,3 +74,7 @@ const MuestraIncidencias: React.FC = () => {
 };
 
 export default MuestraIncidencias;
+function setError(arg0: string) {
+  throw new Error('Function not implemented.');
+}
+
