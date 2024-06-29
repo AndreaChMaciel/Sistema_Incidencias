@@ -14,11 +14,21 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class ControllerIncidencias extends Controller
 {
 
-    public function index()
-    {
-        $incidencias = Incidencia::all();
-        return $incidencias;
-    }
+    public function index(Request $request)
+{
+    $userId = auth()->user()->cn_id_usuario;
+
+    $incidencias = DB::table('t_incidencias as i')
+        ->join('t_estados as e', 'i.cn_id_estado', '=', 'e.cn_id_estado')
+        ->join('t_roles_usuario as ru', 'i.cn_id_usuario', '=', 'ru.cn_id_usuario')
+        ->where('i.cn_id_usuario', $userId)
+        ->where('i.cn_id_estado', 0) // Especificar la tabla para evitar ambigüedad
+        ->select('i.cn_id_incidencia', 'i.ct_descripcion', 'e.ct_descripcion')
+        ->get();
+
+    return response()->json($incidencias);
+}
+
 
     public function store(Request $request)
     {
@@ -26,7 +36,7 @@ class ControllerIncidencias extends Controller
         // Obtener el usuario autenticado desde el token JWT
         $user = JWTAuth::parseToken()->authenticate();
        
-        \Log::info('Token recibido: ' . $request->header('Authorization'));
+        //\Log::info('Token recibido: ' . $request->header('Authorization'));
         $nombreImagen = $this->guardarImagen($request->imagen);
 
         // Insertar un nuevo registro en la tabla

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ControllerEncargado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControllerAuth;
@@ -26,25 +27,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
     // Rutas para incidencias
     Route::post('/incidencias/crear', [ControllerIncidencias::class, 'store']);
-    Route::get('/incidencias', [ControllerIncidencias::class, 'index']);
+    Route::get('/incidencias-usuario', [ControllerIncidencias::class, 'index']);
+    Route::get('/incidencias-encargado', [ControllerEncargado::class, 'index']);
     Route::post('/incidencias/{id}/diagnosticar', [ControllerDiagnosticos::class, 'registrarDiagnostico']);
     
     // Aquí puedes añadir más rutas protegidas por JWT
 });
 
-// Rutas específicas para roles
-Route::middleware(['auth:api', 'role:Usuario'])->group(function () {
-    // Rutas para el rol Usuario
-});
 
-Route::middleware(['auth:api', 'role:Encargado'])->group(function () {
-    // Rutas para el rol Encargado
-});
-
-Route::middleware(['auth:api', 'role:Tecnico'])->group(function () {
-    // Rutas para el rol Técnico
-});
-
-Route::middleware(['auth:api', 'role:Supervisor'])->group(function () {
-    // Rutas para el rol Supervisor
-});
