@@ -23,7 +23,7 @@ class ControllerIncidencias extends Controller
         ->join('t_roles_usuario as ru', 'i.cn_id_usuario', '=', 'ru.cn_id_usuario')
         ->where('i.cn_id_usuario', $userId)
         ->where('i.cn_id_estado', 0) // Especificar la tabla para evitar ambigüedad
-        ->select('i.cn_id_incidencia', 'i.ct_descripcion', 'e.ct_descripcion')
+        ->select('i.cn_incidencia', 'i.titulo', 'e.ct_descripcion')
         ->get();
 
     return response()->json($incidencias);
@@ -41,7 +41,8 @@ class ControllerIncidencias extends Controller
 
         // Insertar un nuevo registro en la tabla
         $incidencia = new Incidencia();
-        $incidencia->ct_nombre = $request->ct_nombre;
+        $incidencia->titulo = $request->titulo;
+        
         $incidencia->ct_descripcion = $request->ct_descripcion;
         $incidencia->ct_lugar = $request->ct_lugar;
         $incidencia->imagen = $nombreImagen;

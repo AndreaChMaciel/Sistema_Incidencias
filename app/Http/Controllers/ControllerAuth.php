@@ -46,6 +46,23 @@ class ControllerAuth extends Controller
         ]);
     }
 
+    public function getRoles(Request $request)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+
+        // Obtener los roles del usuario desde la base de datos
+        $roles = DB::table('t_roles_usuario')
+                    ->join('t_roles', 't_roles_usuario.cn_id_rol', '=', 't_roles.cn_id_rol')
+                    ->where('t_roles_usuario.cn_id_usuario', $user->cn_id_usuario)
+                    ->pluck('t_roles.ct_descripcion')
+                    ->toArray();
+
+        return response()->json(['roles' => $roles]);
+    }
     public function logout(Request $request)
     {
         // Revocar el token actual del usuario autenticado
