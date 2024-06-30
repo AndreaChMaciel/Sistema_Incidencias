@@ -23,7 +23,7 @@ const Login: React.FC = () => {
 
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      
+      localStorage.setItem('roles', JSON.stringify(response.data.roles));
 
       const { roles } = response.data;
       

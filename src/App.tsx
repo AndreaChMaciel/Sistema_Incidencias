@@ -53,8 +53,15 @@ const App: React.FC = () => (
       <Route path="/incidencias" component={ListaIncidencias} exact />
       <Route path="/incidencias/:id/diagnosticar" component={DiagnosticaIncidencia} exact />
 
+      
+
+
+
+
       <Route path="/Usuario" component={InicioUsuario}/>
       <Route path="/Encargado" component={InicioEncargado} />
+      <Route path="/asignar-tecnicos/:incidenciaId" component={AsignarTecnicos} exact={true} />
+      <Route exact path="/" render={() => <Redirect to="/Encargado" />} />
       <Route path="/Tecnico" component={InicioTecnico} />
       <Route path="/Supervisor" component={InicioSupervisor} />
       <Route exact path="/" render={() => <Redirect to="/login" />} />

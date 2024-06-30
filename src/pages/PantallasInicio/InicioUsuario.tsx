@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption, IonCard, IonCardTitle, IonCardHeader, IonList, IonIcon, IonCardContent, IonFabButton, IonFab, IonModal, IonButtons, IonButton, IonInput } from '@ionic/react';
 import { OverlayEventDetail } from '@ionic/core';
-import { add, createOutline } from 'ionicons/icons';
+import { add, createOutline, logOutOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import RegistraIncidencia from '../Incidencias/RegistraIncidencia';
 import axios from 'axios';
@@ -23,11 +23,17 @@ const InicioUsuario: React.FC = () => {
     fetchIncidenciasPendientes();
   }, []);
 
-  const fetchRoles = () => {
-    // Obtener los roles almacenados en localStorage
-    const rolesFromStorage = localStorage.getItem('roles');
-    if (rolesFromStorage) {
-      setRoles(JSON.parse(rolesFromStorage));
+  const fetchRoles = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get('http://localhost:8000/api/roles', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setRoles(response.data);
+    } catch (error) {
+      console.error('Error fetching roles:', error);
     }
   };
 
@@ -62,19 +68,32 @@ const InicioUsuario: React.FC = () => {
     setSelectedRole(event.detail.value);
     // Aquí puedes realizar acciones adicionales cuando se cambie el rol seleccionado
   };
+  const handleLogout = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      await axios.post('http://localhost:8000/api/logout', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      localStorage.removeItem('token');
+      history.push('/login'); // Redirige a la página de inicio de sesión o la página principal
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Incidencias</IonTitle>
+         
           <IonItem slot="end">
-            <IonLabel>Roles: </IonLabel>
-            <IonSelect value={selectedRole} placeholder="Selecciona un rol" onIonChange={handleRoleChange}>
-              {roles.map((rol, index) => (
-                <IonSelectOption key={index} value={rol}>{rol}</IonSelectOption>
-              ))}
-            </IonSelect>
+            <IonButton onClick={handleLogout}>
+              <IonIcon icon={logOutOutline} slot="start" />
+              <IonLabel>Cerrar sesión</IonLabel>
+            </IonButton>
           </IonItem>
         </IonToolbar>
       </IonHeader>
@@ -88,8 +107,8 @@ const InicioUsuario: React.FC = () => {
           <IonList>
       {incidenciasPendientes.map((incidencia, index) => (
         <IonItem key={index}>
-          <IonLabel>{`INCIDENCIA ${incidencia.cn_id_incidencia}: ${incidencia.ct_descripcion}`}</IonLabel>
-          <IonLabel slot="end">{incidencia.estado_descripcion}</IonLabel>
+          <IonLabel>{`INCIDENCIA ${incidencia.cn_incidencia}: ${incidencia.titulo}`}</IonLabel>
+          <IonLabel slot="end">{incidencia.ct_descripcion}</IonLabel>
           <IonIcon icon={createOutline} slot="end" onClick={() => handleIconClick(incidencia.cn_id_incidencia)} />
         </IonItem>
       ))}

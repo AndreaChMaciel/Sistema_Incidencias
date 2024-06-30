@@ -8,10 +8,11 @@ import { useHistory } from 'react-router-dom';
 
 const RegistraIncidencia: React.FC = () => {
  
-  const [ct_nombre, setNombre] = useState('');
+  
   const [ct_descripcion, setDescripcion] = useState('');
   const [ct_lugar, setLugar] = useState('');
   const [imagen, setImagen] = useState('');
+  const [titulo, setTitulo] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -41,7 +42,7 @@ const RegistraIncidencia: React.FC = () => {
   const registrarIncidencia = async () => {
     const token = localStorage.getItem('token');
     // Validar que los campos de correo y contraseña no estén vacíos
-    if (!ct_nombre || !ct_descripcion || !ct_lugar || !imagen) {
+    if ( !ct_descripcion || !ct_lugar || !imagen) {
       setError('Por favor, proporcione información en todos los campos');
       return;
     }
@@ -52,10 +53,11 @@ const RegistraIncidencia: React.FC = () => {
        
      
       const response = await axios.post('http://localhost:8000/api/incidencias/crear', {
-        ct_nombre,
+        
         ct_descripcion,
         ct_lugar,
         imagen,
+        titulo
         
         
       }, {
@@ -66,7 +68,7 @@ const RegistraIncidencia: React.FC = () => {
     
       console.log('Incidencia registrada:', response.data);
      // Limpiar los campos después de registrar la incidencia
-        setNombre('');
+       
         setDescripcion('');
         setLugar('');
         setImagen('');
@@ -83,12 +85,12 @@ const RegistraIncidencia: React.FC = () => {
   
     return (
       <IonContent className="ion-padding">
+        
         <IonItem>
-          <IonLabel position="stacked">Nombre completo de usuario:</IonLabel>
-          <IonInput
-            type="text"
-            value={ct_nombre}
-            onIonChange={e => setNombre(e.detail.value!)}
+          <IonLabel position="stacked">Título:</IonLabel>
+          <IonTextarea
+            value={titulo}
+            onIonChange={e => setTitulo(e.detail.value!)}
           />
         </IonItem>
         <IonItem>
